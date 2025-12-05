@@ -1,0 +1,117 @@
+package main
+
+import (
+	"advent-of-code-2025/utils"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func countAdjacentTiles(grid [][]string, rowIndex int, colIndex int, pattern string) int {
+
+	rowLength := len(grid)
+	colLength := len(grid[0])
+
+	var count = 0
+
+	// Left (broken)
+	if colIndex > 0 && grid[rowIndex][colIndex-1] == pattern {
+		count += 1
+	}
+
+	// Right
+	if colIndex < colLength-1 && grid[rowIndex][colIndex+1] == pattern {
+		count += 1
+	}
+
+	// Top (broken)
+	if rowIndex > 0 && grid[rowIndex-1][colIndex] == pattern {
+		count += 1
+	}
+
+	// Bottom
+	if rowIndex < rowLength-1 && grid[rowIndex+1][colIndex] == pattern {
+		count += 1
+	}
+
+	// Top Left
+	if rowIndex > 0 && colIndex > 0 && grid[rowIndex-1][colIndex-1] == pattern {
+		count += 1
+	}
+
+	// Top Right
+	if rowIndex > 0 && colIndex < colLength-1 && grid[rowIndex-1][colIndex+1] == pattern {
+		count += 1
+	}
+
+	// Bottom Left
+	if rowIndex < rowLength-1 && colIndex > 0 && grid[rowIndex+1][colIndex-1] == pattern {
+		count += 1
+	}
+
+	// Bottom Right
+	if rowIndex < rowLength-1 && colIndex < colLength-1 && grid[rowIndex+1][colIndex+1] == pattern {
+		count += 1
+	}
+
+	return count
+}
+
+func part1(lines []string) int {
+	var result = 0
+
+	var grid [][]string
+	var displayGrid [][]string
+
+	for _, line := range lines {
+		grid = append(grid, strings.Split(line, ""))
+	}
+
+	for _, line := range lines {
+		displayGrid = append(displayGrid, strings.Split(line, ""))
+	}
+
+	for rowIndex, row := range grid {
+		for colIndex, col := range row {
+			if col == "@" {
+
+				count := countAdjacentTiles(grid, rowIndex, colIndex, "@")
+
+				if count < 4 {
+					displayGrid[rowIndex][colIndex] = strconv.Itoa(count)
+
+					result += 1
+				}
+			}
+		}
+	}
+
+	for _, row := range displayGrid {
+		fmt.Println(row)
+	}
+
+	return result
+}
+
+func part2(lines []string) int {
+	var result = 0
+
+	return result
+}
+
+func main() {
+	path := os.Args[1]
+
+	lines, err := utils.LoadInput(path, "\n")
+
+	if err != nil {
+		fmt.Printf("Error reading file: %v\n", err)
+		return
+	}
+
+	part1 := part1(lines)
+	part2 := part2(lines)
+
+	fmt.Printf("Part 1: %d\nPart 2: %d\n", part1, part2)
+}
