@@ -97,15 +97,41 @@ func part1(lines []string) int {
 		displayGrid[tile.Y][tile.X] = "X"
 	}
 
-	for _, row := range displayGrid {
-		fmt.Println(row)
-	}
+	// for _, row := range displayGrid {
+	// 	fmt.Println(row)
+	// }
 
 	return result
 }
 
 func part2(lines []string) int {
 	var result = 0
+
+	var grid [][]string
+
+	for _, line := range lines {
+		grid = append(grid, strings.Split(line, ""))
+	}
+
+	for {
+		tiles := findAllAdjacentTiles(grid, "@")
+
+		count := len(tiles)
+
+		result += count
+
+		for _, tile := range tiles {
+			grid[tile.Y][tile.X] = "."
+		}
+
+		if count == 0 {
+			break
+		}
+	}
+
+	for _, row := range grid {
+		fmt.Println(row)
+	}
 
 	return result
 }
