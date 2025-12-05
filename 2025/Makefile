@@ -17,4 +17,8 @@ day4:
 	go run day4/parse.go day4/example.txt
 #	go run day4/parse.go day4/input.txt
 
-.PHONY: day0 day1 day2 day3 day4
+day5:
+	go run day5/parse.go day5/example.txt
+#	go run day5/parse.go day5/input.txt
+
+.PHONY: day0 day1 day2 day3 day4 day5
