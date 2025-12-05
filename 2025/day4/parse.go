@@ -4,7 +4,6 @@ import (
 	"advent-of-code-2025/utils"
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -58,6 +57,24 @@ func countAdjacentTiles(grid [][]string, rowIndex int, colIndex int, pattern str
 	return count
 }
 
+func findAllAdjacentTiles(grid [][]string, pattern string) []utils.Vector2 {
+	var tiles []utils.Vector2
+
+	for rowIndex, row := range grid {
+		for colIndex, col := range row {
+			if col == pattern {
+				count := countAdjacentTiles(grid, rowIndex, colIndex, pattern)
+
+				if count < 4 {
+					tiles = append(tiles, utils.Vector2{X: colIndex, Y: rowIndex})
+				}
+			}
+		}
+	}
+
+	return tiles
+}
+
 func part1(lines []string) int {
 	var result = 0
 
@@ -72,19 +89,12 @@ func part1(lines []string) int {
 		displayGrid = append(displayGrid, strings.Split(line, ""))
 	}
 
-	for rowIndex, row := range grid {
-		for colIndex, col := range row {
-			if col == "@" {
+	tiles := findAllAdjacentTiles(grid, "@")
 
-				count := countAdjacentTiles(grid, rowIndex, colIndex, "@")
+	result += len(tiles)
 
-				if count < 4 {
-					displayGrid[rowIndex][colIndex] = strconv.Itoa(count)
-
-					result += 1
-				}
-			}
-		}
+	for _, tile := range tiles {
+		displayGrid[tile.Y][tile.X] = "X"
 	}
 
 	for _, row := range displayGrid {
