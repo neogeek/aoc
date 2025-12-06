@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -12,9 +13,7 @@ import (
 var rangePattern = regexp.MustCompile(`^[0-9]+\-[0-9]+$`)
 var idPattern = regexp.MustCompile(`^[0-9]+$`)
 
-func part1(lines []string) int {
-	var result = 0
-
+func parseDataFromInput(lines []string) ([]utils.Range, []uint64) {
 	var ingredientRanges []utils.Range
 	var ids []uint64
 
@@ -32,6 +31,18 @@ func part1(lines []string) int {
 		}
 	}
 
+	sort.Slice(ingredientRanges, func(i, j int) bool {
+		return ingredientRanges[i].Start < ingredientRanges[j].Start
+	})
+
+	return ingredientRanges, ids
+}
+
+func part1(lines []string) int {
+	var result = 0
+
+	ingredientRanges, ids := parseDataFromInput(lines)
+
 	for _, id := range ids {
 		var timesFoundInRange = 0
 		for _, ingredientRange := range ingredientRanges {
@@ -47,8 +58,37 @@ func part1(lines []string) int {
 	return result
 }
 
-func part2(lines []string) int {
-	var result = 0
+func part2(lines []string) uint64 {
+	var result uint64 = 0
+
+	ingredientRanges, _ := parseDataFromInput(lines)
+
+	var combinedIngredientRanges []utils.Range
+
+	combinedIngredientRanges = append(combinedIngredientRanges, utils.Range{
+		Start: ingredientRanges[0].Start,
+		End:   ingredientRanges[0].End,
+	})
+
+	for i := 1; i < len(ingredientRanges); i += 1 {
+		length := len(combinedIngredientRanges) - 1
+
+		if ingredientRanges[i].Start <= combinedIngredientRanges[length].End {
+			combinedIngredientRanges[length].End = max(ingredientRanges[i].End, combinedIngredientRanges[length].End)
+		} else {
+			combinedIngredientRanges = append(combinedIngredientRanges, utils.Range{
+				Start: ingredientRanges[i].Start,
+				End:   ingredientRanges[i].End,
+			})
+		}
+	}
+
+	for _, combinedIngredientRange := range combinedIngredientRanges {
+		result += (combinedIngredientRange.End - combinedIngredientRange.Start) + 1
+	}
+
+	fmt.Println(ingredientRanges)
+	fmt.Println(combinedIngredientRanges)
 
 	return result
 }
