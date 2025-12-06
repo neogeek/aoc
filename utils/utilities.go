@@ -81,3 +81,23 @@ func ParseFloatArray(values []string) []float64 {
 
 	return results
 }
+
+func SumArray(values []int64) int64 {
+	var result int64 = 0
+
+	for _, value := range values {
+		result += value
+	}
+
+	return result
+}
+
+func MultiplyArray(values []int64) int64 {
+	var result int64 = 1
+
+	for _, value := range values {
+		result *= value
+	}
+
+	return result
+}

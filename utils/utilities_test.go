@@ -79,3 +79,23 @@ func TestParseFloatArray(t *testing.T) {
 		}
 	}
 }
+
+func TestParseSumArray(t *testing.T) {
+	{
+		input := []int64{1, 2, 3, 4, 5}
+		result := SumArray(input)
+		if result != 15 {
+			t.Errorf(`SumArray(%v) failed to return the correct result: %v`, input, result)
+		}
+	}
+}
+
+func TestParseMultiplyArray(t *testing.T) {
+	{
+		input := []int64{1, 2, 3, 4, 5}
+		result := MultiplyArray(input)
+		if result != 120 {
+			t.Errorf(`MultiplyArray(%v) failed to return the correct result: %v`, input, result)
+		}
+	}
+}
