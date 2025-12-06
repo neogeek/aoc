@@ -39,7 +39,7 @@ func part1(lines []string) int {
 				timesFoundInRange += 1
 			}
 		}
-		if timesFoundInRange == 0 {
+		if timesFoundInRange > 0 {
 			result += 1
 		}
 	}
