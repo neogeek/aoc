@@ -11,25 +11,18 @@ func parseDataFromInput(lines []string) ([][]string, []string) {
 	numberGroupPattern := regexp.MustCompile("([0-9]+)")
 	operatorGroupPattern := regexp.MustCompile(`([+*-\/])`)
 
-	firstRowMatches := numberGroupPattern.FindAllString(lines[0], -1)
-
-	var columnCount = len(lines) - 1
-	var rowCount = len(firstRowMatches)
-
-	var data [][]string = make([][]string, rowCount)
+	var data [][]string
 	var operators []string
 
-	for rowIndex, _ := range data {
-		data[rowIndex] = make([]string, columnCount)
-	}
-
-	for rowIndex, line := range lines {
+	for _, line := range lines {
 		matches := numberGroupPattern.FindAllString(line, -1)
 
-		for colIndex, match := range matches {
-			data[colIndex][rowIndex] = match
+		if len(matches) > 0 {
+			data = append(data, matches)
 		}
 	}
+
+	data = utils.SwapColumnsAndRows(data)
 
 	for _, line := range lines {
 		matches := operatorGroupPattern.FindAllString(line, -1)

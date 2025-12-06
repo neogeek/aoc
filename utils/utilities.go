@@ -92,6 +92,31 @@ func SumArray(values []int64) int64 {
 	return result
 }
 
+func SwapColumnsAndRows(values [][]string) [][]string {
+	var result [][]string
+
+	if len(values) == 0 {
+		return result
+	}
+
+	rowCount := len(values)
+	colCount := len(values[0])
+
+	result = make([][]string, colCount)
+
+	for i := range colCount {
+		result[i] = make([]string, rowCount)
+	}
+
+	for rowIndex, row := range values {
+		for colIndex, col := range row {
+			result[colIndex][rowIndex] = col
+		}
+	}
+
+	return result
+}
+
 func MultiplyArray(values []int64) int64 {
 	var result int64 = 1
 

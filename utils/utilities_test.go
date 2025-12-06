@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"reflect"
 	"slices"
 	"testing"
 )
@@ -48,54 +49,54 @@ func TestLoadInput(t *testing.T) {
 }
 
 func TestMakeRange(t *testing.T) {
-	{
-		start := 10
-		end := 20
-		result := MakeRange(start, end)
-		if len(result) != 10 {
-			t.Errorf(`MakeRange(%v, %v) failed to return the correct result: %v`, start, end, result)
-		}
+	start := 10
+	end := 20
+	result := MakeRange(start, end)
+	if len(result) != 10 {
+		t.Errorf(`MakeRange(%v, %v) failed to return the correct result: %v`, start, end, result)
 	}
 }
 
 func TestParseIntArray(t *testing.T) {
-	{
-		input := []string{"1", "2", "3", "4", "5"}
-		expected := []int64{1, 2, 3, 4, 5}
-		result := ParseIntArray(input)
-		if slices.Equal(result, expected) == false {
-			t.Errorf(`ParseIntArray(%v) failed to return the correct result: %v`, input, result)
-		}
+	input := []string{"1", "2", "3", "4", "5"}
+	expected := []int64{1, 2, 3, 4, 5}
+	result := ParseIntArray(input)
+	if slices.Equal(result, expected) == false {
+		t.Errorf(`ParseIntArray(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
 func TestParseFloatArray(t *testing.T) {
-	{
-		input := []string{"1", "1.25", "1.5", "1.75", "2"}
-		expected := []float64{1, 1.25, 1.5, 1.75, 2}
-		result := ParseFloatArray(input)
-		if slices.Equal(result, expected) == false {
-			t.Errorf(`ParseFloatArray(%v) failed to return the correct result: %v`, input, result)
-		}
+	input := []string{"1", "1.25", "1.5", "1.75", "2"}
+	expected := []float64{1, 1.25, 1.5, 1.75, 2}
+	result := ParseFloatArray(input)
+	if slices.Equal(result, expected) == false {
+		t.Errorf(`ParseFloatArray(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
 func TestParseSumArray(t *testing.T) {
-	{
-		input := []int64{1, 2, 3, 4, 5}
-		result := SumArray(input)
-		if result != 15 {
-			t.Errorf(`SumArray(%v) failed to return the correct result: %v`, input, result)
-		}
+	input := []int64{1, 2, 3, 4, 5}
+	result := SumArray(input)
+	if result != 15 {
+		t.Errorf(`SumArray(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
+func TestSwapColumnsAndRows(t *testing.T) {
+	input := [][]string{{"1", "2", "3"}, {"4", "5", "6"}}
+	expected := [][]string{{"1", "4"}, {"2", "5", "3", "6"}}
+	result := SwapColumnsAndRows(input)
+
+	if reflect.DeepEqual(result, expected) {
+		t.Errorf(`TestSwapColumnsAndRows(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
 func TestParseMultiplyArray(t *testing.T) {
-	{
-		input := []int64{1, 2, 3, 4, 5}
-		result := MultiplyArray(input)
-		if result != 120 {
-			t.Errorf(`MultiplyArray(%v) failed to return the correct result: %v`, input, result)
-		}
+	input := []int64{1, 2, 3, 4, 5}
+	result := MultiplyArray(input)
+	if result != 120 {
+		t.Errorf(`MultiplyArray(%v) failed to return the correct result: %v`, input, result)
 	}
 }
