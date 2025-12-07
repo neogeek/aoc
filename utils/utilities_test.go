@@ -36,7 +36,7 @@ func TestChunk(t *testing.T) {
 func TestChunkWithVariableLength(t *testing.T) {
 	input := "12345"
 	expected := []string{"1", "234", "5"}
-	result := ChunkWithVariableLength(input, []int64{1, 3, 2})
+	result := ChunkWithVariableLength(input, []int64{1, 3, 2}, 0)
 
 	if slices.Equal(result, expected) == false {
 		t.Errorf(`ChunkWithVariableLength(%v) failed to return the correct result: %v`, input, result)

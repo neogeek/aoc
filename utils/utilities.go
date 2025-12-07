@@ -48,7 +48,7 @@ func Chunk(value string, length int) []string {
 	return result
 }
 
-func ChunkWithVariableLength(value string, lengths []int64) []string {
+func ChunkWithVariableLength(value string, lengths []int64, padding int64) []string {
 	var result []string
 
 	var chars = strings.Split(value, "")
@@ -66,6 +66,8 @@ func ChunkWithVariableLength(value string, lengths []int64) []string {
 			chunk = []string{}
 
 			lengthIndex += 1
+
+			i += int(padding)
 		}
 	}
 
