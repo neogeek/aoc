@@ -33,6 +33,16 @@ func TestChunk(t *testing.T) {
 	}
 }
 
+func TestChunkWithVariableLength(t *testing.T) {
+	input := "12345"
+	expected := []string{"1", "234", "5"}
+	result := ChunkWithVariableLength(input, []int64{1, 3, 2})
+
+	if slices.Equal(result, expected) == false {
+		t.Errorf(`ChunkWithVariableLength(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
 func TestExtractRowsAndColumns(t *testing.T) {
 	input := []string{"1 23", "4 5 6"}
 	expected := [][]string{{"1", "23"}, {"4", "5", "6"}}

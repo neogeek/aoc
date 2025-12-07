@@ -48,6 +48,34 @@ func Chunk(value string, length int) []string {
 	return result
 }
 
+func ChunkWithVariableLength(value string, lengths []int64) []string {
+	var result []string
+
+	var chars = strings.Split(value, "")
+
+	var chunk []string
+
+	var lengthIndex = 0
+
+	for i := 0; i < len(chars); i += 1 {
+		chunk = append(chunk, chars[i])
+
+		if len(lengths) > lengthIndex && int64(len(chunk)) == lengths[lengthIndex] {
+			result = append(result, strings.Join(chunk, ""))
+
+			chunk = []string{}
+
+			lengthIndex += 1
+		}
+	}
+
+	if len(chunk) > 0 {
+		result = append(result, strings.Join(chunk, ""))
+	}
+
+	return result
+}
+
 func ExtractRowsAndColumns(lines []string, pattern string) [][]string {
 	var result [][]string
 
