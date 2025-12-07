@@ -53,6 +53,16 @@ func TestExtractRowsAndColumns(t *testing.T) {
 	}
 }
 
+func TestExtractRowsAndColumnsWithWhitespace(t *testing.T) {
+	input := []string{"123 456  78", "123 456 789"}
+	expected := [][]string{{"123", "456", " 78"}, {"123", "456", "789"}}
+	result := ExtractRowsAndColumnsWithWhitespace(input)
+
+	if reflect.DeepEqual(result, expected) == false {
+		t.Errorf(`ExtractRowsAndColumnsWithWhitespace(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
 func TestHasDecimal(t *testing.T) {
 	{
 		var input float64 = 1

@@ -90,6 +90,42 @@ func ExtractRowsAndColumns(lines []string, pattern string) [][]string {
 	return result
 }
 
+func ExtractRowsAndColumnsWithWhitespace(lines []string) [][]string {
+	var result [][]string
+
+	data := ExtractRowsAndColumns(lines, `\s+`)
+
+	data = SwapColumnsAndRows(data)
+
+	maxColumnLengths := GetLengthOfColumns(data)
+
+	data = SwapColumnsAndRows(data)
+
+	for _, line := range lines {
+		result = append(result, ChunkWithVariableLength(line, maxColumnLengths, 1))
+	}
+
+	return result
+}
+
+func GetLengthOfColumns(data [][]string) []int64 {
+	var columnLengths []int64
+
+	for _, row := range data {
+		var maxColumnLength int64 = 0
+
+		for _, col := range row {
+			if int64(len(col)) > maxColumnLength {
+				maxColumnLength = int64(len(col))
+			}
+		}
+
+		columnLengths = append(columnLengths, maxColumnLength)
+	}
+
+	return columnLengths
+}
+
 func HasDecimal(num float64) bool {
 	return math.Mod(num, 1.0) != 0.0
 }
