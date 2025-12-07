@@ -174,7 +174,7 @@ func ParseIntArray(values []string) []int64 {
 	results := make([]int64, 0, len(values))
 
 	for _, s := range values {
-		i, err := strconv.ParseInt(s, 10, 64)
+		i, err := strconv.ParseInt(strings.TrimSpace(s), 10, 64)
 
 		if err != nil {
 			fmt.Printf("Error converting string '%s' to int: %v\n", s, err)
@@ -191,7 +191,7 @@ func ParseFloatArray(values []string) []float64 {
 	results := make([]float64, 0, len(values))
 
 	for _, s := range values {
-		f, err := strconv.ParseFloat(s, 64)
+		f, err := strconv.ParseFloat(strings.TrimSpace(s), 64)
 
 		if err != nil {
 			fmt.Printf("Error converting string '%s' to float: %v\n", s, err)
