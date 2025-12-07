@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -20,6 +22,42 @@ func AllEqual[T comparable](slice []T) bool {
 	}
 
 	return true
+}
+
+func Chunk(value string, length int) []string {
+	var result []string
+
+	var chars = strings.Split(value, "")
+
+	var chunk []string
+
+	for i := 0; i < len(chars); i += 1 {
+		chunk = append(chunk, chars[i])
+
+		if len(chunk) == length {
+			result = append(result, strings.Join(chunk, ""))
+
+			chunk = []string{}
+		}
+	}
+
+	if len(chunk) > 0 {
+		result = append(result, strings.Join(chunk, ""))
+	}
+
+	return result
+}
+
+func ExtractRowsAndColumns(lines []string, pattern string) [][]string {
+	var result [][]string
+
+	re := regexp.MustCompile(pattern)
+
+	for _, line := range lines {
+		result = append(result, re.Split(strings.TrimSpace(line), -1))
+	}
+
+	return result
 }
 
 func HasDecimal(num float64) bool {
@@ -46,6 +84,24 @@ func MakeRange(start int, end int) []int {
 	}
 
 	return result
+}
+
+func PadLeft(value string, char string, length int) string {
+
+	if len(value) >= length {
+		return value
+	}
+
+	return strings.Repeat(char, length-len(value)) + value
+}
+
+func PadRight(value string, char string, length int) string {
+
+	if len(value) >= length {
+		return value
+	}
+
+	return value + strings.Repeat(char, length-len(value))
 }
 
 func ParseIntArray(values []string) []int64 {
@@ -80,6 +136,12 @@ func ParseFloatArray(values []string) []float64 {
 	}
 
 	return results
+}
+
+func ReverseInt64(values []int64) {
+	sort.Slice(values, func(i, j int) bool {
+		return i > j
+	})
 }
 
 func SumArray(values []int64) int64 {

@@ -4,35 +4,14 @@ import (
 	"advent-of-code-2025/utils"
 	"fmt"
 	"os"
-	"regexp"
 )
 
 func parseDataFromInput(lines []string) ([][]string, []string) {
-	numberGroupPattern := regexp.MustCompile("([0-9]+)")
-	operatorGroupPattern := regexp.MustCompile(`([+*-\/])`)
-
-	var data [][]string
-	var operators []string
-
-	for _, line := range lines {
-		matches := numberGroupPattern.FindAllString(line, -1)
-
-		if len(matches) > 0 {
-			data = append(data, matches)
-		}
-	}
+	data := utils.ExtractRowsAndColumns(lines, `\s+`)
+	operators := data[len(data)-1]
+	data = data[:len(data)-1]
 
 	data = utils.SwapColumnsAndRows(data)
-
-	for _, line := range lines {
-		matches := operatorGroupPattern.FindAllString(line, -1)
-
-		if len(matches) > 0 {
-			for _, match := range matches {
-				operators = append(operators, match)
-			}
-		}
-	}
 
 	return data, operators
 }

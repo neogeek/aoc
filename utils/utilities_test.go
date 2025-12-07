@@ -23,6 +23,26 @@ func TestAllEqual(t *testing.T) {
 	}
 }
 
+func TestChunk(t *testing.T) {
+	input := "12345"
+	expected := []string{"12", "34", "5"}
+	result := Chunk(input, 2)
+
+	if slices.Equal(result, expected) == false {
+		t.Errorf(`TestChunk(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
+func TestExtractRowsAndColumns(t *testing.T) {
+	input := []string{"1 23", "4 5 6"}
+	expected := [][]string{{"1", "23"}, {"4", "5", "6"}}
+	result := ExtractRowsAndColumns(input, `\s+`)
+
+	if reflect.DeepEqual(result, expected) == false {
+		t.Errorf(`TestExtractRowsAndColumns(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
 func TestHasDecimal(t *testing.T) {
 	{
 		var input float64 = 1
