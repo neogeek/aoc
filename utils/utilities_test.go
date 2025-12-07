@@ -29,7 +29,7 @@ func TestChunk(t *testing.T) {
 	result := Chunk(input, 2)
 
 	if slices.Equal(result, expected) == false {
-		t.Errorf(`TestChunk(%v) failed to return the correct result: %v`, input, result)
+		t.Errorf(`Chunk(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
@@ -39,7 +39,7 @@ func TestExtractRowsAndColumns(t *testing.T) {
 	result := ExtractRowsAndColumns(input, `\s+`)
 
 	if reflect.DeepEqual(result, expected) == false {
-		t.Errorf(`TestExtractRowsAndColumns(%v) failed to return the correct result: %v`, input, result)
+		t.Errorf(`ExtractRowsAndColumns(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
@@ -109,7 +109,7 @@ func TestSwapColumnsAndRows(t *testing.T) {
 	result := SwapColumnsAndRows(input)
 
 	if reflect.DeepEqual(result, expected) {
-		t.Errorf(`TestSwapColumnsAndRows(%v) failed to return the correct result: %v`, input, result)
+		t.Errorf(`SwapColumnsAndRows(%v) failed to return the correct result: %v`, input, result)
 	}
 }
 
