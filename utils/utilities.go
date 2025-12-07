@@ -72,7 +72,7 @@ func ChunkWithVariableLength(value string, lengths []int64, padding int64) []str
 	}
 
 	if len(chunk) > 0 {
-		result = append(result, strings.Join(chunk, ""))
+		result = append(result, PadRight(strings.Join(chunk, ""), " ", int(lengths[lengthIndex])))
 	}
 
 	return result
