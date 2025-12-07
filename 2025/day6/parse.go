@@ -4,10 +4,11 @@ import (
 	"advent-of-code-2025/utils"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func parseDataFromInput(lines []string) ([][]string, []string) {
-	data := utils.ExtractRowsAndColumns(lines, `\s+`)
+	data := utils.ExtractRowsAndColumnsWithWhitespace(lines)
 	operators := data[len(data)-1]
 	data = data[:len(data)-1]
 
@@ -22,7 +23,7 @@ func part1(lines []string) int64 {
 	data, operators := parseDataFromInput(lines)
 
 	for dataIndex, values := range data {
-		operator := operators[dataIndex]
+		operator := strings.TrimSpace(operators[dataIndex])
 
 		switch operator {
 		case "+":
