@@ -7,10 +7,8 @@ import (
 	"strings"
 )
 
-func part1(lines []string) int {
-	var splits = 0
-
-	data := utils.ExtractRowsAndColumns(lines, "")
+func calculateBeams(data [][]string) ([][]string, int64) {
+	var splits int64 = 0
 
 	for y := 0; y < len(data); y += 1 {
 		for x := 0; x < len(data[y]); x += 1 {
@@ -20,6 +18,10 @@ func part1(lines []string) int {
 					data[y+1][x] = "|"
 				}
 			case "^":
+				if y > 0 && data[y-1][x] != "|" {
+					continue
+				}
+
 				if x > 0 && data[y][x-1] == "." {
 					data[y][x-1] = "|"
 
@@ -35,9 +37,7 @@ func part1(lines []string) int {
 					}
 				}
 
-				if data[y-1][x] == "|" {
-					splits += 1
-				}
+				splits += 1
 			case "|":
 				if len(data) > y+1 && data[y+1][x] == "." {
 					data[y+1][x] = "|"
@@ -45,6 +45,12 @@ func part1(lines []string) int {
 			}
 		}
 	}
+
+	return data, splits
+}
+
+func part1(lines []string) int64 {
+	data, splits := calculateBeams(utils.ExtractRowsAndColumns(lines, ""))
 
 	for _, row := range data {
 		fmt.Println(strings.Join(row, ""))
