@@ -29,5 +29,9 @@ day7:
 	go run day7/parse.go day7/example.txt
 #	go run day7/parse.go day7/input.txt
 
-.PHONY: day0 day1 day2 day3 day4 day5 day6 day7
-.DEFAULT_GOAL=day7
+day8:
+	go run day8/parse.go day8/example.txt
+#	go run day8/parse.go day8/input.txt
+
+.PHONY: day0 day1 day2 day3 day4 day5 day6 day7 day8
+.DEFAULT_GOAL=day8
