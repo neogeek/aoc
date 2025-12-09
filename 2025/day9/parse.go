@@ -48,6 +48,42 @@ func part1(lines []string) int {
 func part2(lines []string) int {
 	var result = 0
 
+	positions := parsePositionsFromInput(lines)
+
+	var largestX float64 = 0
+	var largestY float64 = 0
+
+	for _, position := range positions {
+		if position.X > largestX {
+			largestX = position.X
+		}
+		if position.Y > largestY {
+			largestY = position.Y
+		}
+	}
+
+	var grid [][]string
+
+	for rowIndex := range int(largestY + 3) {
+		var row = make([]string, int(largestX+3))
+
+		for colIndex, _ := range row {
+			row[colIndex] = "."
+
+			for _, position := range positions {
+				if rowIndex == int(position.Y) && colIndex == int(position.X) {
+					row[colIndex] = "#"
+				}
+			}
+		}
+
+		grid = append(grid, row)
+	}
+
+	for _, line := range grid {
+		fmt.Println(strings.Join(line, ""))
+	}
+
 	return result
 }
 
