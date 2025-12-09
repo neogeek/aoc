@@ -9,3 +9,9 @@ type Vector2 struct {
 	X int
 	Y int
 }
+
+type Vector3 struct {
+	X float64
+	Y float64
+	Z float64
+}

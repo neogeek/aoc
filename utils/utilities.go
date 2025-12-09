@@ -78,6 +78,10 @@ func ChunkWithVariableLength(value string, lengths []int64, padding int64) []str
 	return result
 }
 
+func DistanceBetweenVector3(a Vector3, b Vector3) float64 {
+	return math.Sqrt(math.Pow(b.X-a.X, 2) + math.Pow(b.Y-a.Y, 2) + math.Pow(b.Z-a.Z, 2))
+}
+
 func ExtractRowsAndColumns(lines []string, pattern string) [][]string {
 	var result [][]string
 

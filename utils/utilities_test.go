@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"reflect"
 	"slices"
 	"testing"
@@ -40,6 +41,29 @@ func TestChunkWithVariableLength(t *testing.T) {
 
 	if slices.Equal(result, expected) == false {
 		t.Errorf(`ChunkWithVariableLength(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
+func TestDistanceBetweenVector3(t *testing.T) {
+	{
+		a := Vector3{0, 0, 0}
+		b := Vector3{1, 0, 0}
+		var expected float64 = 1
+		result := DistanceBetweenVector3(a, b)
+
+		if fmt.Sprintf("%.2f", result) != fmt.Sprintf("%.2f", expected) {
+			t.Errorf(`DistanceBetweenVector3(%v, %v) failed to return the correct result: %v`, a, b, result)
+		}
+	}
+	{
+		a := Vector3{0, 0, 0}
+		b := Vector3{1, 1, 1}
+		var expected float64 = 1.73
+		result := DistanceBetweenVector3(a, b)
+
+		if fmt.Sprintf("%.2f", result) != fmt.Sprintf("%.2f", expected) {
+			t.Errorf(`DistanceBetweenVector3(%v, %v) failed to return the correct result: %v`, a, b, result)
+		}
 	}
 }
 
