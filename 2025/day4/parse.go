@@ -66,7 +66,7 @@ func findAllAdjacentTiles(grid [][]string, pattern string) []utils.Vector2 {
 				count := countAdjacentTiles(grid, rowIndex, colIndex, pattern)
 
 				if count < 4 {
-					tiles = append(tiles, utils.Vector2{X: colIndex, Y: rowIndex})
+					tiles = append(tiles, utils.Vector2{X: float64(colIndex), Y: float64(rowIndex)})
 				}
 			}
 		}
@@ -94,7 +94,7 @@ func part1(lines []string) int {
 	result += len(tiles)
 
 	for _, tile := range tiles {
-		displayGrid[tile.Y][tile.X] = "X"
+		displayGrid[int(tile.Y)][int(tile.X)] = "X"
 	}
 
 	// for _, row := range displayGrid {
@@ -121,7 +121,7 @@ func part2(lines []string) int {
 		result += count
 
 		for _, tile := range tiles {
-			grid[tile.Y][tile.X] = "."
+			grid[int(tile.Y)][int(tile.X)] = "."
 		}
 
 		if count == 0 {

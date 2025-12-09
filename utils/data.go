@@ -6,8 +6,8 @@ type Range struct {
 }
 
 type Vector2 struct {
-	X int
-	Y int
+	X float64
+	Y float64
 }
 
 type Vector3 struct {
