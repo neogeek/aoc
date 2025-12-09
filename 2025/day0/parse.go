@@ -9,6 +9,10 @@ import (
 func part1(lines []string) int {
 	var result = 0
 
+	for _, line := range lines {
+		fmt.Println(line)
+	}
+
 	return result
 }
 
