@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-func part1(lines []string) int {
-	var result = 0
+func part1(lines []string) int64 {
+	var result int64 = 0
 
 	for _, line := range lines {
 		fmt.Println(line)
@@ -16,8 +16,8 @@ func part1(lines []string) int {
 	return result
 }
 
-func part2(lines []string) int {
-	var result = 0
+func part2(lines []string) int64 {
+	var result int64 = 0
 
 	return result
 }
