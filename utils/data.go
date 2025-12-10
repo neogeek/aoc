@@ -1,5 +1,9 @@
 package utils
 
+type Number interface {
+	int64 | float64
+}
+
 type Range struct {
 	Start uint64
 	End   uint64

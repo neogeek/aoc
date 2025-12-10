@@ -208,14 +208,14 @@ func ParseFloatArray(values []string) []float64 {
 	return results
 }
 
-func ReverseInt64(values []int64) {
+func Reverse[T Number](values []T) {
 	sort.Slice(values, func(i, j int) bool {
 		return i > j
 	})
 }
 
-func SumArray(values []int64) int64 {
-	var result int64 = 0
+func SumArray[T Number](values []T) T {
+	var result T = 0
 
 	for _, value := range values {
 		result += value
@@ -249,8 +249,8 @@ func SwapColumnsAndRows(values [][]string) [][]string {
 	return result
 }
 
-func MultiplyArray(values []int64) int64 {
-	var result int64 = 1
+func MultiplyArray[T Number](values []T) T {
+	var result T = 1
 
 	for _, value := range values {
 		result *= value

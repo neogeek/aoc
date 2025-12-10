@@ -61,7 +61,7 @@ func part2(lines []string) int64 {
 			values = append(values, parsedNumber)
 		}
 
-		utils.ReverseInt64(values)
+		utils.Reverse(values)
 
 		switch operator {
 		case "+":
