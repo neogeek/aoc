@@ -63,5 +63,10 @@ func main() {
 	part1 := part1(lines)
 	part2 := part2(lines)
 
-	fmt.Printf("Part 1: %d\nPart 2: %d\n", part1, part2)
+	if strings.HasSuffix(path, "example.txt") {
+		utils.Assert(part1 == 357, fmt.Sprintf("Part 1 = %v", part1))
+		utils.Assert(part2 == 3121910778619, fmt.Sprintf("Part 2 = %v", part2))
+	} else {
+		fmt.Printf("Part 1: %d\nPart 2: %d\n", part1, part2)
+	}
 }
