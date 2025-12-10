@@ -10,6 +10,14 @@ import (
 	"strings"
 )
 
+func Assert(result bool, description string) {
+	if !result {
+		fmt.Printf("%s  [FAILED]\n", description)
+	} else {
+		fmt.Printf("%s [OK]\n", description)
+	}
+}
+
 func AllEqual[T comparable](slice []T) bool {
 	if len(slice) <= 1 {
 		return true
