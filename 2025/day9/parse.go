@@ -27,6 +27,36 @@ func calculateRectangle(a utils.Vector2, b utils.Vector2) float64 {
 	return width * height
 }
 
+func generateDebugGrid(positions []utils.Vector2) [][]string {
+	var largestX float64 = 0
+	var largestY float64 = 0
+
+	for _, position := range positions {
+		if position.X > largestX {
+			largestX = position.X
+		}
+		if position.Y > largestY {
+			largestY = position.Y
+		}
+	}
+
+	grid := utils.MakeGrid(int(largestY)+3, int(largestX)+3, ".")
+
+	for _, position := range positions {
+		grid[int(position.Y)][int(position.X)] = "#"
+	}
+
+	for y := 0; y < len(grid); y += 1 {
+		for x := 0; x < len(grid[y]); x += 1 {
+			if grid[y][x] == "#" {
+				grid[y][x] = "?"
+			}
+		}
+	}
+
+	return grid
+}
+
 func part1(lines []string) int {
 	positions := parsePositionsFromInput(lines)
 
@@ -50,35 +80,7 @@ func part2(lines []string) int {
 
 	positions := parsePositionsFromInput(lines)
 
-	var largestX float64 = 0
-	var largestY float64 = 0
-
-	for _, position := range positions {
-		if position.X > largestX {
-			largestX = position.X
-		}
-		if position.Y > largestY {
-			largestY = position.Y
-		}
-	}
-
-	var grid [][]string
-
-	for rowIndex := range int(largestY + 3) {
-		var row = make([]string, int(largestX+3))
-
-		for colIndex, _ := range row {
-			row[colIndex] = "."
-
-			for _, position := range positions {
-				if rowIndex == int(position.Y) && colIndex == int(position.X) {
-					row[colIndex] = "#"
-				}
-			}
-		}
-
-		grid = append(grid, row)
-	}
+	grid := generateDebugGrid(positions)
 
 	for _, line := range grid {
 		fmt.Println(strings.Join(line, ""))

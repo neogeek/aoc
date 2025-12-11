@@ -5,6 +5,7 @@ import (
 	"math"
 	"os"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -255,6 +256,16 @@ func SwapColumnsAndRows(values [][]string) [][]string {
 	}
 
 	return result
+}
+
+func MakeGrid(rowCount int, colCount int, fill string) [][]string {
+	var grid [][]string
+
+	for range rowCount {
+		grid = append(grid, slices.Repeat([]string{"."}, colCount))
+	}
+
+	return grid
 }
 
 func MultiplyArray[T Number](values []T) T {
