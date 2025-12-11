@@ -13,7 +13,7 @@ import (
 
 func Assert(result bool, description string) {
 	if !result {
-		fmt.Printf("%s  [FAILED]\n", description)
+		fmt.Printf("%s [FAILED]\n", description)
 	} else {
 		fmt.Printf("%s [OK]\n", description)
 	}
