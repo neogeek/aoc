@@ -108,6 +108,8 @@ func part2(lines []string) float64 {
 }
 
 func main() {
+	defer utils.ElapsedTimer("Day 9")()
+
 	path := os.Args[1]
 
 	lines, err := utils.LoadInput(path, "\n")

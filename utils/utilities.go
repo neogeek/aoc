@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func Assert(result bool, description string) {
@@ -340,4 +341,11 @@ func MultiplyArray[T Number](values []T) T {
 	}
 
 	return result
+}
+
+func ElapsedTimer(name string) func() {
+	start := time.Now()
+	return func() {
+		fmt.Printf("%s took %v\n", name, time.Since(start))
+	}
 }
