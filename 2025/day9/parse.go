@@ -102,15 +102,18 @@ func IsTileInPolygon(boundingBox utils.BoundingBox, vertices []utils.Vector2) bo
 func part2(lines []string) int64 {
 	positions := parsePositionsFromInput(lines)
 
-	var largestRectangle float64 = 0
-
 	var tiles []Tile
 
 	for _, a := range positions {
 		for _, b := range positions {
 			if a != b && a.X < b.X && a.Y < b.Y {
-				if utils.IsPointInPolygon(a, positions) && utils.IsPointInPolygon(b, positions) {
-					tiles = append(tiles, Tile{Area: calculateArea(a, b), Box: utils.CalculateBoundingBox(a, b)})
+				var boundingBox = utils.CalculateBoundingBox(a, b)
+				var tile = Tile{Area: calculateArea(
+					utils.Vector2{X: boundingBox.MinX, Y: boundingBox.MinY},
+					utils.Vector2{X: boundingBox.MaxX, Y: boundingBox.MaxY},
+				), Box: boundingBox}
+				if IsTileInPolygon(boundingBox, positions) {
+					tiles = append(tiles, tile)
 				}
 			}
 		}
@@ -120,18 +123,7 @@ func part2(lines []string) int64 {
 		return tiles[i].Area > tiles[j].Area
 	})
 
-	for _, tile := range tiles {
-		fmt.Println(int64(tile.Area))
-
-		if IsTileInPolygon(tile.Box, positions) {
-			return int64(tile.Area)
-		}
-	}
-
-	fmt.Println(len(positions))
-	fmt.Println(len(tiles))
-
-	return int64(largestRectangle)
+	return int64(tiles[0].Area)
 }
 
 func main() {
