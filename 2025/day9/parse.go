@@ -59,7 +59,7 @@ func generateDebugGrid(positions []utils.Vector2) [][]string {
 	return grid
 }
 
-func part1(lines []string) int {
+func part1(lines []string) int64 {
 	positions := parsePositionsFromInput(lines)
 
 	var largestRectangle float64 = 0
@@ -74,10 +74,10 @@ func part1(lines []string) int {
 		}
 	}
 
-	return int(largestRectangle)
+	return int64(largestRectangle)
 }
 
-func part2(lines []string) float64 {
+func part2(lines []string) int64 {
 	positions := parsePositionsFromInput(lines)
 
 	grid := generateDebugGrid(positions)
@@ -104,7 +104,7 @@ func part2(lines []string) float64 {
 		fmt.Println(strings.Join(line, ""))
 	}
 
-	return largestRectangle
+	return int64(largestRectangle)
 }
 
 func main() {
