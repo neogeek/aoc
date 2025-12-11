@@ -40,7 +40,7 @@ func generateDebugGrid(positions []utils.Vector2) [][]string {
 		}
 	}
 
-	grid := utils.MakeGrid(int(largestY)+3, int(largestX)+3, ".")
+	grid := utils.MakeGrid(int(largestY)+2, int(largestX)+3, ".")
 
 	for _, position := range positions {
 		grid[int(position.Y)][int(position.X)] = "#"
@@ -48,8 +48,10 @@ func generateDebugGrid(positions []utils.Vector2) [][]string {
 
 	for y := 0; y < len(grid); y += 1 {
 		for x := 0; x < len(grid[y]); x += 1 {
-			if grid[y][x] == "#" {
-				grid[y][x] = "?"
+			if utils.IsPointInPolygon(utils.Vector2{X: float64(x), Y: float64(y)}, positions) {
+				if grid[y][x] != "#" {
+					grid[y][x] = "X"
+				}
 			}
 		}
 	}
@@ -75,18 +77,28 @@ func part1(lines []string) int {
 	return int(largestRectangle)
 }
 
-func part2(lines []string) int {
-	var result = 0
-
+func part2(lines []string) float64 {
 	positions := parsePositionsFromInput(lines)
 
 	grid := generateDebugGrid(positions)
+
+	var largestRectangle float64 = 0
+
+	for _, a := range positions {
+		for _, b := range positions {
+			currentRectangle := calculateRectangle(a, b)
+
+			if currentRectangle > largestRectangle {
+				largestRectangle = currentRectangle
+			}
+		}
+	}
 
 	for _, line := range grid {
 		fmt.Println(strings.Join(line, ""))
 	}
 
-	return result
+	return largestRectangle
 }
 
 func main() {

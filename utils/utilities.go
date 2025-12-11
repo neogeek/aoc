@@ -147,6 +147,66 @@ func HasDecimal(num float64) bool {
 	return math.Mod(num, 1.0) != 0.0
 }
 
+const Epsilon = 1e-9
+
+func IsPointOnSegment(point Vector2, leftVertex, rightVertex Vector2) bool {
+	crossProduct := point.Subtract(leftVertex).Cross(rightVertex.Subtract(leftVertex))
+
+	if math.Abs(crossProduct) > Epsilon {
+		return false
+	}
+
+	xMin := math.Min(leftVertex.X, rightVertex.X)
+	xMax := math.Max(leftVertex.X, rightVertex.X)
+	yMin := math.Min(leftVertex.Y, rightVertex.Y)
+	yMax := math.Max(leftVertex.Y, rightVertex.Y)
+
+	isBoundedX := point.X >= xMin-Epsilon && point.X <= xMax+Epsilon
+	isBoundedY := point.Y >= yMin-Epsilon && point.Y <= yMax+Epsilon
+
+	return isBoundedX && isBoundedY
+
+}
+
+func IsPointInPolygon(point Vector2, vertices []Vector2) bool {
+	verticesCount := len(vertices)
+
+	if verticesCount < 3 {
+		return false
+	}
+
+	windingNumber := 0.0
+
+	for i := range verticesCount {
+		leftVertex := vertices[i]
+		rightVertex := vertices[(i+1)%verticesCount]
+
+		if IsPointOnSegment(point, leftVertex, rightVertex) {
+			return true
+		}
+
+		u := leftVertex.Subtract(point)
+		v := rightVertex.Subtract(point)
+
+		cross := u.Cross(v)
+		dot := u.Dot(v)
+
+		angle := math.Atan2(cross, dot)
+
+		windingNumber += angle
+	}
+
+	if math.Abs(math.Abs(windingNumber)-2*math.Pi) < Epsilon {
+		return true
+	}
+
+	if math.Abs(windingNumber) < Epsilon {
+		return false
+	}
+
+	return math.Abs(windingNumber) > Epsilon
+}
+
 func LoadInput(filePath string, seperator string) ([]string, error) {
 	content, err := os.ReadFile(filePath)
 
