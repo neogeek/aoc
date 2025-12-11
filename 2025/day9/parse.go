@@ -86,10 +86,16 @@ func part2(lines []string) float64 {
 
 	for _, a := range positions {
 		for _, b := range positions {
-			currentRectangle := calculateRectangle(a, b)
+			if a.X < b.X && a.Y < b.Y {
+				currentRectangle := calculateRectangle(a, b)
 
-			if currentRectangle > largestRectangle {
-				largestRectangle = currentRectangle
+				if utils.IsPointInPolygon(a, positions) && utils.IsPointInPolygon(a.Add(utils.Vector2{X: b.X, Y: 0}), positions) &&
+					utils.IsPointInPolygon(b, positions) && utils.IsPointInPolygon(b.Subtract(utils.Vector2{X: a.X, Y: 0}), positions) {
+
+					if currentRectangle > largestRectangle {
+						largestRectangle = currentRectangle
+					}
+				}
 			}
 		}
 	}
