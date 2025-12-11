@@ -44,6 +44,29 @@ func TestChunkWithVariableLength(t *testing.T) {
 	}
 }
 
+func TestDistanceBetweenVector2(t *testing.T) {
+	{
+		a := Vector2{0, 0}
+		b := Vector2{1, 0}
+		var expected float64 = 1
+		result := DistanceBetweenVector2(a, b)
+
+		if fmt.Sprintf("%.2f", result) != fmt.Sprintf("%.2f", expected) {
+			t.Errorf(`DistanceBetweenVector2(%v, %v) failed to return the correct result: %v`, a, b, result)
+		}
+	}
+	{
+		a := Vector2{0, 0}
+		b := Vector2{1, 1}
+		var expected float64 = 1.41
+		result := DistanceBetweenVector2(a, b)
+
+		if fmt.Sprintf("%.2f", result) != fmt.Sprintf("%.2f", expected) {
+			t.Errorf(`DistanceBetweenVector2(%v, %v) failed to return the correct result: %v`, a, b, result)
+		}
+	}
+}
+
 func TestDistanceBetweenVector3(t *testing.T) {
 	{
 		a := Vector3{0, 0, 0}
