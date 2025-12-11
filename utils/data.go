@@ -9,6 +9,13 @@ type Range struct {
 	End   uint64
 }
 
+type BoundingBox struct {
+	MinX float64
+	MaxX float64
+	MinY float64
+	MaxY float64
+}
+
 type Vector2 struct {
 	X float64
 	Y float64

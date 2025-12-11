@@ -34,6 +34,16 @@ func AllEqual[T comparable](slice []T) bool {
 	return true
 }
 
+func CalculateBoundingBox(a Vector2, b Vector2) BoundingBox {
+	var minX = math.Min(a.X, b.X)
+	var maxX = math.Max(a.X, b.X)
+
+	var minY = math.Min(a.Y, b.Y)
+	var maxY = math.Max(a.Y, b.Y)
+
+	return BoundingBox{MinX: minX, MaxX: maxX, MinY: minY, MaxY: maxY}
+}
+
 func Chunk(value string, length int) []string {
 	var result []string
 
@@ -284,7 +294,7 @@ func ParseFloatArray(values []string) []float64 {
 
 func Reverse[T Number](values []T) {
 	sort.Slice(values, func(i, j int) bool {
-		return i > j
+		return values[i] > values[j]
 	})
 }
 

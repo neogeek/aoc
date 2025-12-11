@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -20,7 +21,7 @@ func parsePositionsFromInput(lines []string) []utils.Vector2 {
 	return positions
 }
 
-func calculateRectangle(a utils.Vector2, b utils.Vector2) float64 {
+func calculateArea(a utils.Vector2, b utils.Vector2) float64 {
 	width := math.Abs(a.X-b.X) + 1
 	height := math.Abs(a.Y-b.Y) + 1
 
@@ -66,7 +67,7 @@ func part1(lines []string) int64 {
 
 	for _, a := range positions {
 		for _, b := range positions {
-			currentRectangle := calculateRectangle(a, b)
+			currentRectangle := calculateArea(a, b)
 
 			if currentRectangle > largestRectangle {
 				largestRectangle = currentRectangle
@@ -77,32 +78,58 @@ func part1(lines []string) int64 {
 	return int64(largestRectangle)
 }
 
+type Tile struct {
+	Area float64
+	Box  utils.BoundingBox
+}
+
+func IsTileInPolygon(boundingBox utils.BoundingBox, vertices []utils.Vector2) bool {
+	p1 := utils.Vector2{X: boundingBox.MinX, Y: boundingBox.MinY}
+	p2 := utils.Vector2{X: boundingBox.MaxX, Y: boundingBox.MinY}
+	p3 := utils.Vector2{X: boundingBox.MinX, Y: boundingBox.MaxY}
+	p4 := utils.Vector2{X: boundingBox.MaxX, Y: boundingBox.MaxY}
+
+	if utils.IsPointInPolygon(p1, vertices) &&
+		utils.IsPointInPolygon(p2, vertices) &&
+		utils.IsPointInPolygon(p3, vertices) &&
+		utils.IsPointInPolygon(p4, vertices) {
+		return true
+	}
+
+	return false
+}
+
 func part2(lines []string) int64 {
 	positions := parsePositionsFromInput(lines)
 
-	grid := generateDebugGrid(positions)
-
 	var largestRectangle float64 = 0
+
+	var tiles []Tile
 
 	for _, a := range positions {
 		for _, b := range positions {
-			if a.X < b.X && a.Y < b.Y {
-				currentRectangle := calculateRectangle(a, b)
-
-				if utils.IsPointInPolygon(a, positions) && utils.IsPointInPolygon(a.Add(utils.Vector2{X: b.X, Y: 0}), positions) &&
-					utils.IsPointInPolygon(b, positions) && utils.IsPointInPolygon(b.Subtract(utils.Vector2{X: a.X, Y: 0}), positions) {
-
-					if currentRectangle > largestRectangle {
-						largestRectangle = currentRectangle
-					}
+			if a != b && a.X < b.X && a.Y < b.Y {
+				if utils.IsPointInPolygon(a, positions) && utils.IsPointInPolygon(b, positions) {
+					tiles = append(tiles, Tile{Area: calculateArea(a, b), Box: utils.CalculateBoundingBox(a, b)})
 				}
 			}
 		}
 	}
 
-	for _, line := range grid {
-		fmt.Println(strings.Join(line, ""))
+	sort.Slice(tiles, func(i, j int) bool {
+		return tiles[i].Area > tiles[j].Area
+	})
+
+	for _, tile := range tiles {
+		fmt.Println(int64(tile.Area))
+
+		if IsTileInPolygon(tile.Box, positions) {
+			return int64(tile.Area)
+		}
 	}
+
+	fmt.Println(len(positions))
+	fmt.Println(len(tiles))
 
 	return int64(largestRectangle)
 }
