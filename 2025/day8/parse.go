@@ -106,7 +106,6 @@ func part1(lines []string) int {
 	topThreeJunctionBoxes := junctionBoxes[0:3]
 
 	for _, junctionBox := range topThreeJunctionBoxes {
-
 		fmt.Println(len(junctionBox.Positions))
 
 		result *= len(junctionBox.Positions)
