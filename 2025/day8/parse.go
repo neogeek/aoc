@@ -126,6 +126,8 @@ func part2(lines []string) int {
 }
 
 func main() {
+	defer utils.ElapsedTimer("Day 8")()
+
 	path := os.Args[1]
 
 	lines, err := utils.LoadInput(path, "\n")
