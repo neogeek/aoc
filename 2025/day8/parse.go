@@ -18,6 +18,24 @@ type Distance struct {
 	Positions []utils.Vector3
 }
 
+func (d Distance) Equal(other Distance) bool {
+	if d.Length != other.Length {
+		return false
+	}
+
+	if len(d.Positions) != len(other.Positions) {
+		return false
+	}
+
+	for _, position := range other.Positions {
+		if !slices.Contains(d.Positions, position) {
+			return false
+		}
+	}
+
+	return true
+}
+
 func (junctionBox JunctionBox) Contains(position utils.Vector3) bool {
 	return slices.Contains(junctionBox.Positions, position)
 }
@@ -37,6 +55,8 @@ func part1(lines []string) int {
 
 	var positions []utils.Vector3
 
+	var finalDistances []Distance
+
 	var junctionBoxes []JunctionBox
 
 	for _, line := range lines {
@@ -45,74 +65,78 @@ func part1(lines []string) int {
 		positions = append(positions, utils.Vector3{X: values[0], Y: values[1], Z: values[2]})
 	}
 
-	for len(positions) > 0 {
-		for _, a := range positions {
-			var distances []Distance
+	for _, a := range positions {
+		var distances []Distance
 
-			for _, b := range positions {
-				if a == b {
-					continue
-				}
-
-				distance := utils.DistanceBetweenVector3(a, b)
-
-				if distance > 0 {
-					distances = append(distances, Distance{Length: distance, Positions: []utils.Vector3{a, b}})
-				}
+		for _, b := range positions {
+			if a == b {
+				continue
 			}
 
-			for _, junctionBox := range junctionBoxes {
-				for _, position := range junctionBox.Positions {
-					distance := utils.DistanceBetweenVector3(a, position)
+			distance := Distance{Length: utils.DistanceBetweenVector3(a, b), Positions: []utils.Vector3{a, b}}
 
-					distances = append(distances, Distance{Length: distance, Positions: []utils.Vector3{a, position}})
+			var found bool = false
+
+			for _, d := range finalDistances {
+				if d.Equal(distance) {
+					found = true
 				}
 			}
 
-			sort.Slice(distances, func(i, j int) bool {
-				return distances[i].Length < distances[j].Length
-			})
-
-			if len(distances) <= 0 {
-				break
+			if !found {
+				distances = append(distances, distance)
 			}
+		}
 
-			var closestDistance = distances[0]
+		sort.Slice(distances, func(i, j int) bool {
+			return distances[i].Length < distances[j].Length
+		})
 
-			foundInJunctionBox, junctionBoxIndex := IsContainedInAnyJunctionBox(closestDistance.Positions, junctionBoxes)
+		if len(distances) <= 0 {
+			break
+		}
 
-			if foundInJunctionBox {
-				for _, position := range closestDistance.Positions {
-					junctionBoxes[junctionBoxIndex].Positions = append(junctionBoxes[junctionBoxIndex].Positions, position)
-				}
-			} else {
-				junctionBoxes = append(junctionBoxes, JunctionBox{Positions: closestDistance.Positions})
+		var closestDistance = distances[0]
+
+		finalDistances = append(finalDistances, closestDistance)
+	}
+
+	sort.Slice(finalDistances, func(i, j int) bool {
+		return finalDistances[i].Length < finalDistances[j].Length
+	})
+
+	// for _, finalDistance := range finalDistances[0:11] {
+	// 	fmt.Println(finalDistance)
+	// }
+
+	for _, finalDistance := range finalDistances[0:11] {
+		foundInJunctionBox, junctionBoxIndex := IsContainedInAnyJunctionBox(finalDistance.Positions, junctionBoxes)
+
+		if foundInJunctionBox {
+			for _, position := range finalDistance.Positions {
+				junctionBoxes[junctionBoxIndex].Positions = append(junctionBoxes[junctionBoxIndex].Positions, position)
 			}
-
-			for _, position := range closestDistance.Positions {
-				positions = utils.RemoveFromSlice(positions, position)
-			}
+		} else {
+			junctionBoxes = append(junctionBoxes, JunctionBox{Positions: finalDistance.Positions})
 		}
 	}
 
-	for junctionBoxIndex, _ := range junctionBoxes {
-		junctionBoxes[junctionBoxIndex].Positions = utils.UniqueSlice(junctionBoxes[junctionBoxIndex].Positions)
+	for junctionBoxIndex, junctionBox := range junctionBoxes {
+		junctionBoxes[junctionBoxIndex].Positions = utils.UniqueSlice(junctionBox.Positions)
 	}
 
 	sort.Slice(junctionBoxes, func(i, j int) bool {
 		return len(junctionBoxes[i].Positions) > len(junctionBoxes[j].Positions)
 	})
 
-	topThreeJunctionBoxes := junctionBoxes[0:3]
+	// for _, junctionBox := range junctionBoxes {
+	// 	fmt.Println(junctionBox)
+	// }
 
-	for _, junctionBox := range topThreeJunctionBoxes {
-		fmt.Println(len(junctionBox.Positions))
-
-		result *= len(junctionBox.Positions)
-	}
-
-	for _, junctionBox := range topThreeJunctionBoxes {
-		fmt.Println(junctionBox.Positions)
+	if len(junctionBoxes) > 3 {
+		for _, junctionBox := range junctionBoxes[0:3] {
+			result *= len(junctionBox.Positions)
+		}
 	}
 
 	return result

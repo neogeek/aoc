@@ -1,5 +1,7 @@
 package utils
 
+import "fmt"
+
 type Number interface {
 	int64 | float64
 }
@@ -25,6 +27,10 @@ func (a BoundingBox) Overlaps(b BoundingBox) bool {
 type Vector2 struct {
 	X float64
 	Y float64
+}
+
+func (v Vector2) String() string {
+	return fmt.Sprintf("%f,%f", v.X, v.Y)
 }
 
 func (vector Vector2) Add(other Vector2) Vector2 {
@@ -53,4 +59,8 @@ type Vector3 struct {
 	X float64
 	Y float64
 	Z float64
+}
+
+func (v Vector3) String() string {
+	return fmt.Sprintf("%.0f,%.0f,%.0f", v.X, v.Y, v.Z)
 }
