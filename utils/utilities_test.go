@@ -187,3 +187,34 @@ func TestParseMultiplyArray(t *testing.T) {
 		t.Errorf(`MultiplyArray(%v) failed to return the correct result: %v`, input, result)
 	}
 }
+
+func TestRemoveFromSlice(t *testing.T) {
+	input := []int64{1, 2, 3, 4, 5}
+	expected := []int64{1, 2, 4, 5}
+	result := RemoveFromSlice(input, 3)
+
+	if slices.Equal(result, expected) == false {
+		t.Errorf(`RemoveFromSlice(%v) failed to return the correct result: %v`, input, result)
+	}
+}
+
+func TestUniqueSlice(t *testing.T) {
+	{
+		input := []int64{1, 1, 2, 3, 4, 4, 5}
+		expected := []int64{1, 2, 3, 4, 5}
+		result := UniqueSlice(input)
+
+		if slices.Equal(result, expected) == false {
+			t.Errorf(`UniqueSlice(%v) failed to return the correct result: %v`, input, result)
+		}
+	}
+	{
+		input := []Vector3{Vector3{1, 2, 3}, Vector3{1, 2, 3}, Vector3{5, 5, 5}}
+		expected := []Vector3{Vector3{1, 2, 3}, Vector3{5, 5, 5}}
+		result := UniqueSlice(input)
+
+		if slices.Equal(result, expected) == false {
+			t.Errorf(`UniqueSlice(%v) failed to return the correct result: %v`, input, result)
+		}
+	}
+}

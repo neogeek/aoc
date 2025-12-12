@@ -112,9 +112,7 @@ func part2(lines []string) int64 {
 					utils.Vector2{X: boundingBox.MinX, Y: boundingBox.MinY},
 					utils.Vector2{X: boundingBox.MaxX, Y: boundingBox.MaxY},
 				), Box: boundingBox}
-				if IsTileInPolygon(boundingBox, positions) {
-					tiles = append(tiles, tile)
-				}
+				tiles = append(tiles, tile)
 			}
 		}
 	}
@@ -123,7 +121,19 @@ func part2(lines []string) int64 {
 		return tiles[i].Area > tiles[j].Area
 	})
 
-	return int64(tiles[0].Area)
+	for _, a := range tiles {
+		var overlaps = true
+		for _, b := range tiles {
+			if a != b && !a.Box.Overlaps(b.Box) {
+				overlaps = false
+			}
+		}
+
+		fmt.Println(overlaps)
+		fmt.Println(a)
+	}
+
+	return 0
 }
 
 func main() {

@@ -241,7 +241,6 @@ func MakeRange(start int, end int) []int {
 }
 
 func PadLeft(value string, char string, length int) string {
-
 	if len(value) >= length {
 		return value
 	}
@@ -250,7 +249,6 @@ func PadLeft(value string, char string, length int) string {
 }
 
 func PadRight(value string, char string, length int) string {
-
 	if len(value) >= length {
 		return value
 	}
@@ -358,4 +356,28 @@ func ElapsedTimer(name string) func() {
 	return func() {
 		fmt.Printf("%s took %v\n", name, time.Since(start))
 	}
+}
+
+func RemoveFromSlice[T comparable](slice []T, target T) []T {
+	var temp []T
+
+	for _, item := range slice {
+		if item != target {
+			temp = append(temp, item)
+		}
+	}
+
+	return temp
+}
+
+func UniqueSlice[T comparable](slice []T) []T {
+	var temp []T
+
+	for _, item := range slice {
+		if !slices.Contains(temp, item) {
+			temp = append(temp, item)
+		}
+	}
+
+	return temp
 }

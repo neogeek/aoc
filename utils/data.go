@@ -16,6 +16,12 @@ type BoundingBox struct {
 	MaxY float64
 }
 
+func (a BoundingBox) Overlaps(b BoundingBox) bool {
+	x_overlap := a.MinX < b.MaxX && a.MaxX > b.MinX
+	y_overlap := a.MinY < b.MaxY && a.MaxY > b.MinY
+	return x_overlap && y_overlap
+}
+
 type Vector2 struct {
 	X float64
 	Y float64
